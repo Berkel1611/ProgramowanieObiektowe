@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1709239548 source:c:\users\radek\onedrive\pulpit\studia uwb\programowanie obiektowe\programy\lab1\main.cpp
+	<iostream>
+	<cstdlib>
+	<conio.h>
+
