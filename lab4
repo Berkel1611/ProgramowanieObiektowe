@@ -1,0 +1,100 @@
+#include <iostream>
+#include <string>
+#include <math.h>
+
+using namespace std;
+
+int string_to_int(string str);
+string to_YYYY(int Y);
+string to_MM(int M);
+string to_DD(int D);
+string YearOfDate(string date);
+string MonthOfDate(string date);
+string DayOfDate(string date);
+int intYearOfDate(string date);
+int intMonthOfDate(string date);
+int intDayOfDate(string date);
+
+class Osoba
+{
+private:
+    string imie = "<brak danych>", nazwisko = "<brak danych>", dataUr = "????-??-??";
+    bool isValidYear(int Y);
+    bool isValidMonth(int M);
+    bool isValidDay(int D);
+public:
+    const static int minYear = 1990, maxYear = 3000;
+    Osoba(){}
+    Osoba(string im, string nazw, string du)
+    {
+        imie = im;
+        nazwisko = nazw;
+        int Y = intYearOfDate(du), M = intMonthOfDate(du), D = intDayOfDate(du);
+        string strY = "????", strM = "??", strD = "??";
+        if(isValidYear(Y)) strY = to_YYYY(Y);
+        if(isValidMonth(M)) strM = to_MM(M);
+        if(isValidDay(D)) strD = to_DD(D);
+        dataUr = strY + "-" + strM + "-" + strD;
+    }
+    Osoba(string im, string nazw, int Y, int M, int D)
+    {
+        imie = im;
+        nazwisko = nazw;
+        string strY = "????", strM = "??", strD = "??";
+        if(isValidYear(Y)) strY = to_YYYY(Y);
+        if(isValidMonth(M)) strM = to_MM(M);
+        if(isValidDay(D)) strD = to_DD(D);
+        dataUr = strY + "-" + strM + "-" + strD;
+    }
+    void wypisz();
+};
+
+int main()
+{
+    Osoba os1 = Osoba("Piotr", "Stomma", "1666-07-06");
+    os1.wypisz();
+    return 0;
+}
+
+void Osoba::wypisz()
+{
+    cout << "imie: " << imie << endl <<
+    "nazwisko: " << nazwisko << endl <<
+    "dataUrodzenia [YYYY-MM-DD]: " << dataUr << endl;
+}
+bool Osoba::isValidYear(int Y){return Y >= Osoba::minYear && Y <= Osoba::maxYear ? true : false;}
+bool Osoba::isValidMonth(int M){return M > 0 && M < 13 ? true : false;}
+bool Osoba::isValidDay(int D){return D > 0 && D < 32 ? true : false;}
+int string_to_int(string str)
+{
+    int num = 0;
+    for(int i = 0; i < str.length(); i++)
+    {
+        if(str[i] >= '0' && str[i] <= '9')
+            num += (str[i]-48)*pow(10, str.length()-1-i);
+        else
+            return -1;
+    }
+    return num;
+}
+string to_YYYY(int Y)
+{
+    string year = to_string(Y);
+    return string(4-year.length(), '0')+year;
+}
+string to_MM(int M)
+{
+    string month = to_string(M);
+    return string(2-month.length(), '0')+month;
+}
+string to_DD(int D)
+{
+    string day = to_string(D);
+    return string(2-day.length(), '0')+day;
+}
+string YearOfDate(string date){return date.substr(0, 4);}
+string MonthOfDate(string date){return date.substr(5, 2);}
+string DayOfDate(string date){return date.substr(8, 2);}
+int intYearOfDate(string date){return string_to_int(YearOfDate(date));}
+int intMonthOfDate(string date){return string_to_int(MonthOfDate(date));}
+int intDayOfDate(string date){return string_to_int(DayOfDate(date));}
