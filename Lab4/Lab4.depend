@@ -1,0 +1,6 @@
+# depslib dependency file v1.0
+1712134862 source:c:\users\radek\onedrive\pulpit\studia uwb\programowanie obiektowe\programy\lab4\main.cpp
+	<iostream>
+	<string>
+	<math.h>
+
