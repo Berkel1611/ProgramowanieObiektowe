@@ -25,6 +25,7 @@ public:
     Punkty();
     Punkty(int);
     int getLiczba();
+    void setLiczba(int);
     void wypisz();
 };
 class Wynik
@@ -36,6 +37,7 @@ public:
     Wynik(string, string, int, int);
     Osoba getO();
     Punkty getP();
+    void setP(int);
     void wypisz();
 };
 
@@ -49,18 +51,36 @@ int main()
     {"Mariusz", "Lacki", 18, rand()%101},
     {"Gracja", "Majewski", 47, rand()%101},
     {"Sylwester", "Stalone", 59, rand()%101}};
-/*
+
     for(Wynik e : tab)
     {
         e.wypisz();
         cout << endl;
     }
-*/
+
     int sumaPunktow = 0;
     for(Wynik e : tab)
         sumaPunktow += e.getP().getLiczba();
-    cout << "Suma wszystkich punktow wynosi: " << sumaPunktow;
-    
+    for(int i = 0; i < 7; i++)
+    {
+        if((i+1)%2 == 0)
+            tab[i].setP(tab[i].getP().getLiczba()+20);
+        else
+        {
+            if(tab[i].getP().getLiczba() >= 20)
+                tab[i].setP(tab[i].getP().getLiczba()-20);
+            else
+                tab[i].setP(0);
+        }
+    }
+    cout << "Suma wszystkich punktow wynosi: " << sumaPunktow << endl << endl;
+
+    for(Wynik e : tab)
+    {
+        e.wypisz();
+        cout << endl;
+    }
+
     return 0;
 }
 
@@ -90,6 +110,11 @@ bool Punkty::isValidNum(int l) {return l >= 0 && l <= 100;}
 Punkty::Punkty() {liczba = -1;}
 Punkty::Punkty(int l) {liczba = isValidNum(l) ? l : -1;}
 int Punkty::getLiczba() {return liczba;}
+void Punkty::setLiczba(int l)
+{
+    if(isValidNum(l))
+        liczba = l;
+}
 void Punkty::wypisz()
 {
     cout << "Liczba: " << liczba << endl;
@@ -98,6 +123,7 @@ Wynik::Wynik(): o(), p(){}
 Wynik::Wynik(string im, string nazw, int w, int pkt): o(im, nazw, w), p(pkt){}
 Osoba Wynik::getO() {return o;}
 Punkty Wynik::getP() {return p;}
+void Wynik::setP(int l) {p.setLiczba(l);}
 void Wynik::wypisz()
 {
     o.wypisz();
