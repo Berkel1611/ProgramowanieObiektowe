@@ -1,0 +1,105 @@
+#include <iostream>
+#include <time.h>
+
+using namespace std;
+
+class Osoba
+{
+    string imie, nazwisko;
+    int wiek;
+public:
+    bool isValidAge(int);
+    bool isValidNameSurname(string);
+    Osoba();
+    Osoba(string, string, int);
+    string getImie();
+    string getNazwisko();
+    int getWiek();
+    void wypisz();
+};
+class Punkty
+{
+    int liczba;
+public:
+    bool isValidNum(int);
+    Punkty();
+    Punkty(int);
+    int getLiczba();
+    void wypisz();
+};
+class Wynik
+{
+    Osoba o;
+    Punkty p;
+public:
+    Wynik();
+    Wynik(string, string, int, int);
+    Osoba getO();
+    Punkty getP();
+    void wypisz();
+};
+
+int main()
+{
+    srand(time(NULL));
+    Wynik tab[7] = {{"Kacper", "Kownacki", 18, rand()%101},
+    {"Dariusz", "Puchacz", 35, rand()%101},
+    {"Marek", "Dabrowski", 61, rand()%101},
+    {"Ireneusz", "Mroz", 33, rand()%101},
+    {"Mariusz", "Lacki", 18, rand()%101},
+    {"Gracja", "Majewski", 47, rand()%101},
+    {"Sylwester", "Stalone", 59, rand()%101}};
+/*
+    for(Wynik e : tab)
+    {
+        e.wypisz();
+        cout << endl;
+    }
+*/
+    int sumaPunktow = 0;
+    for(Wynik e : tab)
+        sumaPunktow += e.getP().getLiczba();
+    cout << "Suma wszystkich punktow wynosi: " << sumaPunktow;
+    
+    return 0;
+}
+
+bool Osoba::isValidAge(int age) {return age >= 18;}
+bool Osoba::isValidNameSurname(string str) {return sizeof(str)/sizeof(char) >= 3;}
+Osoba::Osoba()
+{
+    imie = nazwisko = "<brak danych>";
+    wiek = -1;
+}
+Osoba::Osoba(string im, string nazw, int w)
+{
+    imie = isValidNameSurname(im) ? im : "<brak danych>";
+    nazwisko = isValidNameSurname(nazw) ? nazw : "<brak danych>";
+    wiek = isValidAge(w) ? w : -1;
+}
+string Osoba::getImie() {return imie;}
+string Osoba::getNazwisko() {return nazwisko;}
+int Osoba::getWiek() {return wiek;}
+void Osoba::wypisz()
+{
+    cout << "Imie: " << imie << endl
+    << "Nazwisko: " << nazwisko << endl
+    << "Wiek: " << wiek << endl;
+}
+bool Punkty::isValidNum(int l) {return l >= 0 && l <= 100;}
+Punkty::Punkty() {liczba = -1;}
+Punkty::Punkty(int l) {liczba = isValidNum(l) ? l : -1;}
+int Punkty::getLiczba() {return liczba;}
+void Punkty::wypisz()
+{
+    cout << "Liczba: " << liczba << endl;
+}
+Wynik::Wynik(): o(), p(){}
+Wynik::Wynik(string im, string nazw, int w, int pkt): o(im, nazw, w), p(pkt){}
+Osoba Wynik::getO() {return o;}
+Punkty Wynik::getP() {return p;}
+void Wynik::wypisz()
+{
+    o.wypisz();
+    p.wypisz();
+}
