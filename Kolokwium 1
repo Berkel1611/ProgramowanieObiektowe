@@ -1,0 +1,102 @@
+#include <iostream>
+
+using namespace std;
+
+class Lek
+{
+protected:
+    string nazwa;
+    int cena, naStanie;
+    bool isValidNaStanieCena(int);
+public:
+    Lek(){}
+    Lek(string, int, int);
+    void UstawCene(int);
+    int IleNaStanie();
+    int ZwrocCene();
+    void Sprzedaj(int);
+    void Dokup(int);
+    void Wyswietl();
+    ~Lek();
+};
+
+class LekRefundowany : public Lek
+{
+protected:
+    int cenaRef;
+    bool isValidCenaRef(int);
+public:
+    LekRefundowany(string, int, int, int);
+    void Wyswietl();
+    int ZwrocCeneRef();
+    void ZmienCeneRef(int);
+    ~LekRefundowany();
+};
+
+int main()
+{
+    LekRefundowany lekRef = LekRefundowany("Paracetamol", 20, 2, 15);
+    lekRef.Wyswietl();
+    LekRefundowany *lek = new LekRefundowany("Apap", 30, 10, 17);
+    cout << endl;
+    lek->Wyswietl();
+    cout << endl;
+    cout << "Cena refundowana lekRef: " << lekRef.ZwrocCeneRef() << endl;
+    cout << "Cena redundowana lek: " << lek->ZwrocCeneRef() << endl;
+    delete lek;
+    return 0;
+}
+
+bool Lek::isValidNaStanieCena(int num) {return num >= 0;}
+Lek::Lek(string nazw, int cen, int stan)
+{
+    nazwa = nazw;
+    cena = isValidNaStanieCena(cen) ? cen : 0;
+    naStanie = isValidNaStanieCena(stan) ? stan : 0;
+}
+void Lek::UstawCene(int cen)
+{
+    if(isValidNaStanieCena(cen))
+        cena = cen;
+}
+int Lek::IleNaStanie() {return naStanie;}
+int Lek::ZwrocCene() {return cena;}
+void Lek::Sprzedaj(int ile)
+{
+    if(naStanie < ile)
+        cout << "Nie ma tyle na stanie!" << endl;
+    else
+    {
+        naStanie -= ile;
+        cout << "Sprzedane." << endl;
+    }
+}
+void Lek::Dokup(int ile) {naStanie += ile;}
+void Lek::Wyswietl()
+{
+    cout << "Nazwa: " << nazwa << endl
+    << "Cena: " << cena << endl
+    << "Na stanie: " << naStanie << endl;
+}
+Lek::~Lek() {cout << "Obiekt usuniety." << endl;}
+
+bool LekRefundowany::isValidCenaRef(int cen) {return cen <= Lek::cena && cen >= 0;}
+LekRefundowany::LekRefundowany(string nazw, int cen, int stan, int cenRef):Lek(nazw, cen, stan)
+{
+    if(isValidCenaRef(cenRef))
+        cenaRef = cenRef;
+    else
+        cenaRef = 0;
+}
+void LekRefundowany::Wyswietl()
+{
+    Lek::Wyswietl();
+    cout << "Cena refundowana: " << cenaRef << endl;
+}
+int LekRefundowany::ZwrocCeneRef() {return cenaRef;}
+void LekRefundowany::ZmienCeneRef(int cenRef)
+{
+    if(isValidCenaRef(cenRef))
+        cenaRef = cenRef;
+}
+LekRefundowany::~LekRefundowany() {cout << "Obiekt zostal usuniety." << endl;}
