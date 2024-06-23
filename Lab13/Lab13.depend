@@ -1,0 +1,7 @@
+# depslib dependency file v1.0
+1719145792 source:c:\users\radek\onedrive\pulpit\studia uwb\programowanie obiektowe\programy\lab13\main.cpp
+	<iostream>
+	<vector>
+	<algorithm>
+	<fstream>
+
